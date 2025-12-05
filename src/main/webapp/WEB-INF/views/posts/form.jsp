@@ -8,17 +8,17 @@
 <body>
 <h1>게시물 등록</h1>
     <form action="/posts" method="post">
-        <div>
-            <label>작성자:</label>
-            <select name="memberId" required>
-                <%
-                    List<Member> members = (List<Member>) request.getAttribute("members");
-                    for (Member member : members) {
-                %>
-                    <option value="<%= member.getId() %>"><%= member.getUsername() %></option>
-                <%  } %>
-            </select>
-        </div>
+<%--        <div>--%>
+<%--            <label>작성자:</label>--%>
+<%--            <select name="memberId" required>--%>
+<%--                <%--%>
+<%--                    List<Member> members = (List<Member>) request.getAttribute("members");--%>
+<%--                    for (Member member : members) {--%>
+<%--                %>--%>
+<%--                    <option value="<%= member.getId() %>"><%= member.getUsername() %></option>--%>
+<%--                <%  } %>--%>
+<%--            </select>--%>
+<%--        </div>--%>
         <div>
             <label>제목:</label>
             <input name="title" required>

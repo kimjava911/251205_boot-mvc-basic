@@ -27,20 +27,29 @@ public class PostController {
 
     // 게시물 작성
     @GetMapping("/new") // GET /posts/new
-    public String createForm(Model model) {
+    public String createForm(
+            @SessionAttribute(name = "loginMember", required = false)
+            Member loginMember,
+            Model model) {
         // 작성자 선택을 위한 회원 목록
-        model.addAttribute("members", memberRepository.findAll());
+        // model.addAttribute("members", memberRepository.findAll());
+        if (loginMember == null) {
+            return "redirect:/auth/login";
+        }
+        model.addAttribute("loginMember", loginMember);
         return "posts/form";
     }
 
     // 작성 처리
     @PostMapping
-    public String create(@ModelAttribute PostForm form) {
-        Member member = memberRepository.findById(form.getMemberId())
-                .orElseThrow();
-        postRepository.save(form.toEntity(member));
-//        return "redirect:/posts";
-        return "redirect:/posts/" + form.getMemberId();
+    public String create(
+            @SessionAttribute("loginMember") Member loginMember,
+            @ModelAttribute PostForm form) {
+//        Member member = memberRepository.findById(form.getMemberId())
+//                .orElseThrow();
+//        postRepository.save(form.toEntity(member));
+        Post p = postRepository.save(form.toEntity(loginMember));
+        return "redirect:/posts/" + p.getId();
     }
 
     // 개별 보기

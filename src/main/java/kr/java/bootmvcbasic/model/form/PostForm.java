@@ -8,7 +8,7 @@ import lombok.Data;
 public class PostForm {
     private String title;
     private String content;
-    private Long memberId;
+//    private Long memberId;
 
     public Post toEntity(Member member) {
         Post post = new Post();

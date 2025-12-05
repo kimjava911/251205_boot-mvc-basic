@@ -9,6 +9,7 @@
     <ul>
         <li><a href="/members">멤버 목록</a></li>
         <li><a href="/posts">게시글 목록</a></li>
+        <li><a href="/auth/login">로그인</a></li>
     </ul>
     <ul>
         <li><a href="/search">키워드 없이</a></li>
