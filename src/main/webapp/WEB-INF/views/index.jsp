@@ -14,6 +14,7 @@
         <li><a href="/search">키워드 없이</a></li>
         <li><a href="/search?keyword=spring">Spring Keyword</a></li>
         <li><a href="/search/posts">게시글 검색</a></li>
+        <li><a href="/filter">필터 (다중선택)</a></li>
     </ul>
 </body>
 </html>
