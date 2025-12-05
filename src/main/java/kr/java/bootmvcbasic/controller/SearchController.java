@@ -19,4 +19,19 @@ public class SearchController {
         model.addAttribute("message", keyword + "에 대한 검색 결과");
         return "search/result";
     }
+
+    @GetMapping("/posts")
+    public String searchPosts(
+            @RequestParam(required = false) String keyword, // 없어도 400 에러를 내지 않음
+            @RequestParam(defaultValue = "1") int page, // 기본값 1
+            @RequestParam(defaultValue = "10") int size, // 기본값 10
+            Model model) {
+
+        model.addAttribute("keyword", keyword); // keyword가 null일 수 있음
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
+        return "search/posts";
+    }
+
+
 }
