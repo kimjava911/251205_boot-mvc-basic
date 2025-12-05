@@ -2,16 +2,14 @@ package kr.java.bootmvcbasic.controller;
 
 import kr.java.bootmvcbasic.model.entity.Member;
 import kr.java.bootmvcbasic.model.entity.Post;
+import kr.java.bootmvcbasic.model.form.MemberForm;
 import kr.java.bootmvcbasic.model.form.PostForm;
 import kr.java.bootmvcbasic.model.repository.MemberRepository;
 import kr.java.bootmvcbasic.model.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor // <- 생성자 주입 (final)
@@ -23,7 +21,7 @@ public class PostController {
     // 목록 조회
     @GetMapping // GET /posts
     public String list(Model model) {
-        model.addAttribute(postRepository.findAll());
+        model.addAttribute("posts", postRepository.findAll());
         return "posts/list";
     }
 
@@ -41,6 +39,41 @@ public class PostController {
         Member member = memberRepository.findById(form.getMemberId())
                 .orElseThrow();
         postRepository.save(form.toEntity(member));
+//        return "redirect:/posts";
+        return "redirect:/posts/" + form.getMemberId();
+    }
+
+    // 개별 보기
+    @GetMapping("/{id}") // @PathVariable Long id
+    public String detail(@PathVariable Long id, Model model) {
+        model.addAttribute("post", postRepository.findById(id).orElseThrow());
+        return "posts/detail";
+    }
+
+    // 수정 폼
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+        Post post = postRepository.findById(id).orElseThrow();
+        model.addAttribute("post", post);
+        return "posts/edit";
+    }
+
+    // 수정 처리
+    @PostMapping("/{id}") // POST /posts
+    public String update(
+            @PathVariable Long id,
+            @ModelAttribute PostForm form) {
+        Post post = postRepository.findById(id).orElseThrow();
+        post.setTitle(form.getTitle());
+        post.setContent(form.getContent());
+        postRepository.save(post);
+        return "redirect:/posts/{id}";
+    }
+
+    // 삭제
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Long id) {
+        postRepository.deleteById(id);
         return "redirect:/posts";
     }
 }

@@ -3,21 +3,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>회원 등록</title>
+    <title>게시물 등록</title>
 </head>
 <body>
-<h1>회원 등록</h1>
-    <form action="/members" method="post">
+<h1>게시물 등록</h1>
+    <form action="/posts" method="post">
         <div>
-            <label>이름:</label>
-            <input name="username" required>
+            <label>작성자:</label>
+            <select name="memberId" required>
+                <%
+                    List<Member> members = (List<Member>) request.getAttribute("members");
+                    for (Member member : members) {
+                %>
+                    <option value="<%= member.getId() %>"><%= member.getUsername() %></option>
+                <%  } %>
+            </select>
         </div>
         <div>
-            <label>이메일:</label>
-            <input name="email" required>
+            <label>제목:</label>
+            <input name="title" required>
         </div>
-        <button>등록</button>
-        <a href="/members">취소</a>
+        <div>
+            <label>내용:</label>
+            <input name="content" required>
+        </div>
+        <button>작성</button>
+        <a href="/posts">취소</a>
     </form>
 </body>
 </html>
