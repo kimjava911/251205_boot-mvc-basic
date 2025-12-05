@@ -1,12 +1,11 @@
 package kr.java.bootmvcbasic.controller;
 
+import kr.java.bootmvcbasic.model.form.MemberForm;
 import kr.java.bootmvcbasic.model.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/members")
@@ -24,5 +23,18 @@ public class MemberController {
     public String detail(@PathVariable Long id, Model model) {
         model.addAttribute("member", memberRepository.findById(id).orElseThrow());
         return "members/detail";
+    }
+
+    // 등록 폼 (GET)
+    @GetMapping("/new")
+    public String createForm() {
+        return "members/form";
+    }
+
+    // 등록 처리 (POST)
+    @PostMapping // POST /posts
+    public String create(@ModelAttribute MemberForm form) {
+        memberRepository.save(form.toEntity());
+        return "redirect:/members";
     }
 }
