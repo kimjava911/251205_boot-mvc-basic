@@ -1,5 +1,4 @@
 <%@ page import="kr.java.bootmvcbasic.model.entity.Member" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -28,6 +27,7 @@
         <td><%= member.getEmail() %></td>
         <td><%= member.getCreatedAt() %></td>
     </tr>
+    <a href="/members/<%= member.getId() %>/edit">수정하기</a>
 </table>
 
 <a href="/members">멤버 목록</a>

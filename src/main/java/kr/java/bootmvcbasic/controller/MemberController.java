@@ -1,5 +1,6 @@
 package kr.java.bootmvcbasic.controller;
 
+import kr.java.bootmvcbasic.model.entity.Member;
 import kr.java.bootmvcbasic.model.form.MemberForm;
 import kr.java.bootmvcbasic.model.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +37,26 @@ public class MemberController {
     public String create(@ModelAttribute MemberForm form) {
         memberRepository.save(form.toEntity());
         return "redirect:/members";
+    }
+
+    // 수정 폼 (GET)
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+        Member member = memberRepository.findById(id).orElseThrow();
+        model.addAttribute("member", member);
+        return "members/edit";
+    }
+
+    // 수정 처리 (POST)
+    @PostMapping("/{id}") // POST /posts
+    public String update(
+            @PathVariable Long id,
+            @ModelAttribute MemberForm form) {
+        Member member = memberRepository.findById(id).orElseThrow();
+        member.setUsername(form.getUsername());
+        member.setEmail(form.getEmail());
+        memberRepository.save(member);;
+
+        return "redirect:/members/{id}";
     }
 }
