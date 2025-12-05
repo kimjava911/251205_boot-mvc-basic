@@ -1,0 +1,14 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>HOME</title>
+</head>
+<body>
+    <h1>메인 페이지</h1>
+    <p><%= request.getAttribute("message") %></p>
+    <ul>
+        <li><a href="/members">멤버 목록</a></li>
+        <li><a href="/posts">게시글 목록</a></li>
+    </ul>
+</body>
+</html>
